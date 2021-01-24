@@ -23,6 +23,7 @@ Como requisitos previos se asumen nociones básicas de programación, concretame
 * Bucles
 * Entrada y salida de datos
 * Librerías
+* etc.
 
 
 ## Antes de ponerte a trabajar...
