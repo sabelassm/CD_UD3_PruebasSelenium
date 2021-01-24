@@ -11,7 +11,7 @@ public class App {
 
         WebDriver driver = new ChromeDriver();
         driver.get("file:///Users/sabelasobrinosanmartin/seleniumTest/pagina_web/index.html"); //Abrimos el fichero de pruebas combobox
-        Thread.sleep(2000);
+        Thread.sleep(3000);
 
         /* BUSQUEDA TEXTO */
         driver.get("https://www.wikipedia.es"); //Abrimos la p�gina de la wikipedia en el navegador que acabamos de abrir
