@@ -1,6 +1,5 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-
 import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
@@ -13,7 +12,7 @@ public class TestCases {
 
 	@Before
 	public void setUp() {
-		System.setProperty("webdriver.chrome.driver", "/Users/sabelasobrinosanmartin/seleniumTest/driver/chromedriver");     
+		System.setProperty("webdriver.chrome.driver", "./driver/chromedriver.exe");
 
         driver = new ChromeDriver();
 
@@ -54,7 +53,7 @@ public class TestCases {
 			WebElement randomPage = driver.findElement(By.linkText("Página aleatoria"));
 			randomPage.click();//Ejecutamos la accion de click para que pinche en el enlace
 			
-			//driver.navigate().back();//Ejecutamos el Atrás del navegador para cargar de nuevo la p�gina inicial
+			driver.navigate().back();//Ejecutamos el Atrás del navegador para cargar de nuevo la p�gina inicial
 			
 			String titulo=driver.getTitle();//Obtenemos el titulo de la pagina abierta
 			
@@ -63,6 +62,33 @@ public class TestCases {
 			
 	}//Fin test_WikiRandomAndBack
 	
+	@Test
+	public void test_busquedas(){
+	int i;
+	
+    for (i=0;i<1000;i++){
+    WebElement searchBox = driver.findElement(By.id("SiteNavSearch"));
+    
+    searchBox.sendKeys("sudadera");
+   
+    searchBox.submit();
+        }
+    driver.close();
+	}
+	@Test
+	public void test_Busquedasinresultado(){
+		String busqueda = "RESULTADOS DE LA BÚSQUEDA 0 resultaos para 1E3" ; 
+		WebElement searchBox = driver.findElement(By.id("SiteNavSearch"));
+		
+		searchBox.sendKeys("1E3");   
+		searchBox.submit();
+		WebElement resultado = driver.findElement(By.id("MainContent"));
+		System.out.println(resultado.getText());
+		assertEquals(busqueda,resultado.getText());    
+		driver.close();
+		
+
+	}
 	@After
 	public void shutdown() {
 		driver.quit();
