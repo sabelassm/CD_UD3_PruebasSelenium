@@ -15,9 +15,15 @@ public class TestCases {
 
 	@Before
 	public void setUp() {
+		/**
+		 * para usar o chromedriver
+		 */
 		// System.setProperty("webdriver.chrome.driver", "/Users/simon/CD_UD3_PruebasSelenium/driver/chromedriver.exe");     
-
        // driver = new ChromeDriver();
+
+		/**
+		 * para usar o firefoxdriver
+		 */
 	   System.setProperty("webdriver.gecko.driver","/Users/simon/CD_UD3_PruebasSelenium/driver/geckodriver.exe");
 	   DesiredCapabilities capabilities = DesiredCapabilities.firefox();
 		capabilities.setCapability("marionette",true);
@@ -34,7 +40,6 @@ public class TestCases {
 						
 			WebElement searchBox = driver.findElement(By.id("gh-ac"));
 			WebElement searchButton = driver.findElement(By.id("gh-btn"));
-			// String tituloSeleniumEsperado = "Todas las Categorías";
 
 			searchBox.sendKeys(cadena);//Escribimos el texto a buscar en la caja de texto
 			
@@ -51,7 +56,7 @@ public class TestCases {
 				System.out.println("Error, no se encuentra el espacio de respuesta");
 			}
 			
-	}//Fin realizarBusquedawiki
+	}//Fin
 	
 	@Test
 	public void test_accesoSerccion() {
@@ -70,7 +75,7 @@ public class TestCases {
 			assertEquals(tituloHomeEsperado,titulo);//Comprobamos el titulo obtenido con el esperado
 			
 			
-	}//Fin test_WikiRandomAndBack
+	}//Fin 
 
 	@Test
 	public void test_menu_busqueda() throws InterruptedException {
@@ -104,13 +109,12 @@ public class TestCases {
 			assertEquals(tituloHomeEsperado,titulo);//Comprobamos el titulo obtenido con el esperado
 			
 			
-	}//Fin test_WikiRandomAndBack
+	}//Fin
 
 	@Test
 	public void test_añadir_cesta() throws InterruptedException {
 		/*******
-		 *Realiza una busqueda rellenando distintos campos en un furmulario
-		 
+		 *añade un producto a cesta
 		 *****/
 		
 			 String tituloHomeEsperado="Cesta de la compra (1 artículo)";
@@ -126,7 +130,7 @@ public class TestCases {
 			assertEquals(tituloHomeEsperado,vTitulo);//Comprobamos el titulo obtenido con el esperado
 			
 			
-	}//Fin test_WikiRandomAndBack
+	}//Fin
 
 	@After
 	public void shutdown() {
