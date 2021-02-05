@@ -1,3 +1,4 @@
+  
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -19,9 +20,9 @@ public class App {
     searchBox.sendKeys("SUDADERA");   
     searchBox.submit();
     Thread.sleep(2000);
-    WebElement resultado = driver.findElement(By.linkText("en oferta"));
+    WebElement resultado = driver.findElement(By.id("AddToCartText-product-template"));
     resultado.click();
-
+    Thread.sleep(5000);
     driver.close();
     
 
