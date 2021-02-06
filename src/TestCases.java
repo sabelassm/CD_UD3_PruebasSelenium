@@ -1,68 +1,61 @@
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.Keys;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class TestCases {
-	
+
 	private WebDriver driver;
 	
 
 	@Before
 	public void setUp() {
-		System.setProperty("webdriver.chrome.driver", "/Users/sabelasobrinosanmartin/seleniumTest/driver/chromedriver");     
-
-        driver = new ChromeDriver();
-
+		System.setProperty("webdriver.gecko.driver", "./driver/geckodriver.exe"); 
+        driver = new FirefoxDriver();
 	}
 	
 	@Test
-	public void realizarBusquedaWiki() {
+	public void Testlocalizacion() {
+
+		driver.get("https://www.asos.com/es/?hrd=1");
 		
-		driver.get("https://www.wikipedia.es"); //Abrimos la p�gina de la wikipedia 						
+			String tituloesperado="$ USD";
 
-						
-			WebElement searchBox = driver.findElement(By.id("searchInput"));
-			WebElement searchButton = driver.findElement(By.id("searchButton"));
-			 String tituloSeleniumEsperado = "Selenium";
-
-			searchBox.sendKeys("Selenium");//Escribimos el texto a buscar en la caja de texto
-			
-			searchButton.click();//Ejecutamos la accion de click para que realice la b�squeda
-			
-			WebElement tituloPrimeraPagina = driver.findElement(By.id("firstHeading"));//Recuperamos el elemento que tiene el titulo en la p�gina abierta
+			driver.findElement(By.cssSelector("button[data-testid='country-selector-btn']")).click();
+			Select comboboxSimple = new Select(driver.findElement(By.id("country")));
+			comboboxSimple.selectByIndex(0);
+			driver.findElement(By.cssSelector("button[data-testid='save-country-button']")).click();
 		
-			String titulo=tituloPrimeraPagina.getText();//Obtenemos el titulo de la pagina abierta
+			WebElement titulomoneda=driver.findElement(By.id("currency"));
+			String titulo=titulomoneda.getText();
 
-			assertEquals(tituloSeleniumEsperado,titulo);//Comprobamos el titulo obtenido con el esperado
-			
-			
-	}//Fin realizarBusquedawiki
+			assertEquals(tituloesperado, titulo);
+		
+		}
 	
 	@Test
-	public void test_WikiRandomAndBack() {
-		/*******
-		 * Vamos abrir una página de la wikipedia, pulsaremos en el enlace Pagina Aleatoria y a continuaci�n,
-		 * pulsaremos sobre Go Back del navegador
-		 *****/
+		public void testpaginainicio() {
+
+		driver.get("https://www.asos.com/es/?hrd=1"); 						
+
+        	driver.findElement(By.id("chrome-search")).sendKeys("amarillo"+ Keys.ENTER);
+			driver.findElement(By.cssSelector("a[data-testid='asoslogo']")).click();
 		
-			 String tituloHomeEsperado="Wikipedia, la enciclopedia libre";
-			driver.get("https://www.wikipedia.es"); //Abrimos la p�gina de la wikipedia 						
-			WebElement randomPage = driver.findElement(By.linkText("Página aleatoria"));
-			randomPage.click();//Ejecutamos la accion de click para que pinche en el enlace
-			
-			//driver.navigate().back();//Ejecutamos el Atrás del navegador para cargar de nuevo la p�gina inicial
-			
-			String titulo=driver.getTitle();//Obtenemos el titulo de la pagina abierta
-			
-			assertEquals(tituloHomeEsperado,titulo);//Comprobamos el titulo obtenido con el esperado
-			
-			
-	}//Fin test_WikiRandomAndBack
-	
+			String URL=driver.getCurrentUrl();
+			assertTrue(URL.contains("https://www.asos.com/es/?hrd=1"));
+
+		}
+
+		
 	@After
 	public void shutdown() {
 		driver.quit();
