@@ -73,6 +73,33 @@ public class TestCases {
 		WebElement registarse = driver.findElement(By.id("CustomerEmail"));
 		registarse.submit();
 	}
+	@Test
+	public void test_carrito_sin_datos() throws InterruptedException {
+	driver.get("https://www.rakayoclothing.com/");
+    WebElement searchBox = driver.findElement(By.id("SiteNavSearch"));
+    searchBox.sendKeys("SUDADERA");   
+    searchBox.submit();
+    
+    WebElement resultado = driver.findElement(By.className("product-card__image-wrapper"));
+    resultado.click();
+    Thread.sleep(2000);
+    WebElement añadircesta = driver.findElement(By.id("AddToCart-product-template"));
+    añadircesta.click();
+    Thread.sleep(2000);
+    WebElement cesta = driver.findElement(By.className("icon-cart"));
+    cesta.click();
+    Thread.sleep(2000);
+    WebElement finalizarcompra = driver.findElement(By.className("btn"));
+    finalizarcompra.click();
+    Thread.sleep(2000); 
+    WebElement continuarenvios = driver.findElement(By.id("continue_button"));
+    continuarenvios.click();
+    Thread.sleep(2000);
+    String titulofallo = "Error - Información - Rakayo Clothing - Pantalla de pago";
+    String tituloerror = driver.getTitle();
+    System.out.println(tituloerror);    
+    assertEquals(tituloerror, titulofallo);
+	}
 	@After
 	public void shutdown() {
 		driver.quit();
