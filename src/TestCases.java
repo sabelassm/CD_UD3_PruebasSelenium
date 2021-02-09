@@ -44,11 +44,12 @@ public class TestCases {
         WebElement añadir = driver.findElement(By.className("btn_comprar"));
         añadir.click();
 
-        // Se espera que NO se despliegue la cesta, porque no se está añadiendo nada
-        WebElement cesta = driver.findElement(
-                By.linkText("//div[@class='desp_cesta-int']//a//div[@class='desp_cesta-pagar desp_cesta-ver']"));
+        // comprobamos el número de elementos del carrito
+	String elemCarritoEsperado = "0";
+	WebElement elemCarrito = driver.findElement(By.className("nProductosCarrito"));
+	String carrito = elemCarrito.getText();
+	assertEquals(elemCarritoEsperado, carrito);
 
-        assertNotNull(cesta);
     }// Fin AñadirProductoAgotado CPF1
 
 

@@ -6,7 +6,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
-
 public class App {
     public static void main(String[] args) throws Exception {
         System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
@@ -27,7 +26,6 @@ public class App {
         avisoCookies.click();
 
         Thread.sleep(1000);
-
 
         // CPF1 AÑADIR A LA CESTA UN PRODUCTO AGOTADO
         WebElement desplegable = driver.findElement(By.linkText("DÍA A DÍA"));
@@ -55,7 +53,6 @@ public class App {
         añadir.click();
 
         Thread.sleep(1000);
-
 
         // CPF2 AÑADIR CANTIDADES INGENTES DE PRODUCTO
         desplegable = driver.findElement(By.linkText("CUIDADO PERSONAL"));
@@ -95,7 +92,6 @@ public class App {
 
         Thread.sleep(1000);
 
-
         // CPF3 IR A CESTA COMPRA CUPÓN DESCUENTO
         WebElement carroCompra = driver.findElement(By.className("carrito_li"));
         carroCompra.click();
@@ -126,13 +122,11 @@ public class App {
 
         Thread.sleep(2000);
 
-
         // CPF4 ACCESO A CUIDADO PERSONAL
         WebElement cuidadoPersonal = driver.findElement(By.linkText("CUIDADO PERSONAL"));
         cuidadoPersonal.click();
 
         Thread.sleep(3000);
-
 
         // CPF5 NEWSLETTER
         // ACCEDER A LA PÁGINA PRINCIPAL
@@ -157,7 +151,6 @@ public class App {
         driver.findElement(By.id("Apoyo_Mensaje_div_aceptar")).click();
 
         Thread.sleep(2000);
-
 
         // CPF6 REGISTRO USUARIO NUEVO
         WebElement logIn = driver.findElement(By.linkText("Login"));
@@ -285,4 +278,3 @@ public class App {
 
     }
 }
-
