@@ -1,94 +1,173 @@
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.Select;
 
 public class App {
-    public static void main(String[] args) throws Exception {
-        System.setProperty("webdriver.chrome.driver", "./driver/chromedriver");     
+    
 
-        WebDriver driver = new ChromeDriver();
-        driver.get("file:///Users/sabelasobrinosanmartin/seleniumTest/pagina_web/index.html"); //Abrimos el fichero de pruebas combobox
+    private WebDriver driver;
+
+    @Before
+    public void setUp() {
+        System.setProperty("webdriver.chrome.driver", "C:/Users/Eloy/visual/CD_Tarea3/driver/chromedriver.exe");
+        driver = new ChromeDriver();
+
+    }
+
+    @Test
+    public void pruebaComprar() throws InterruptedException {
+
+        driver.get("https://www.pccomponentes.com/seagate-barracuda-35-1tb-sata3?tmPid=111412&recToken=recs");
+        driver.manage().window().maximize();
+        
+        WebElement botonCarrito = driver.findElement(By.id("add-cart"));
+        
+        botonCarrito.click();
+        Thread.sleep(5000);
+        
+        WebElement numeroCarritoActual = driver.findElement(By.className("c-units"));
+        String numeroCarritoEsperado = "1";
+        String numeroCarrito = numeroCarritoActual.getText();
+
+        assertEquals(numeroCarritoEsperado, numeroCarrito);
+
+    }
+
+    @Test
+    public void pruebaBusqueda() throws InterruptedException {
+
+        driver.get("https://www.pccomponentes.com/");
+        driver.manage().window().maximize();
+
+        WebElement botonBusqueda = driver.findElement(By.id("ais-autocomplete-selectized"));
+
+        botonBusqueda.sendKeys("raspberry pi 4 modelo b 4gb");
+        Thread.sleep(1000);
+        botonBusqueda.sendKeys(Keys.ENTER);
+        Thread.sleep(1000);
+        
+        WebElement producto = driver.findElement(By.cssSelector("[data-id='216504']"));
+
+        producto.click();
+        Thread.sleep(5000);
+
+        WebElement nombreObjetoActual = driver.findElement(By.cssSelector("h1.h4 strong:first-child"));
+        String nombreObjetoEsperado = "Raspberry Pi 4 Modelo B 4GB";
+        String nombreObjeto = nombreObjetoActual.getText();
+
+        assertEquals(nombreObjetoEsperado, nombreObjeto);
+
+    }
+
+    @Test
+    public void filtradoProductos() throws InterruptedException {
+
+        driver.get("https://www.pccomponentes.com/discos-duros");
+        driver.manage().window().maximize();
+
+        WebElement filtroTamaño = driver.findElement(By.cssSelector("[data-id='130']"));
+        
+        filtroTamaño.click();
+        Thread.sleep(3000);
+        
+        WebElement filtroConexion = driver.findElement(By.linkText("M.2"));
+
+        filtroConexion.click();
         Thread.sleep(3000);
 
-        /* BUSQUEDA TEXTO */
-        driver.get("https://www.wikipedia.es"); //Abrimos la p�gina de la wikipedia en el navegador que acabamos de abrir
-        Thread.sleep(2000); //Para ver la ejecuci�n, detenemos el hilo 2 segundos
-        
-        WebElement searchBox = driver.findElement(By.id("searchInput"));
-        WebElement searchButton = driver.findElement(By.id("searchButton"));
-        
-        Thread.sleep(2000);
-        searchBox.sendKeys("Selenium");
-        Thread.sleep(2000);
-        searchButton.click();
-        Thread.sleep(2000);
-        
-        String titulo=driver.getTitle();
-        System.out.println(titulo); //Visualizamos en consola el t�tulo de la p�gina que se abre como resultado de la b�squeda
-        
+        WebElement nombreSeleccion = driver.findElement(By.cssSelector("h1.white-card:nth-child(1)"));
+        String nombreFiltroEsperado = "Discos Duros 1 TB M.2";
+        String nombreActual = nombreSeleccion.getText();
 
-        /* PÁGINA ALEATORIA */
-        driver.findElement(By.id("n-randompage")).click();//Hacemos click en el enlace de p�gina aleatoria que hay en el men� izquierdo de wikipedia
-       // driver.findElement(By.linkText("Pagina aleatoria")).click();//Hacemos click en el enlace de p�gina aleatoria que hay en el men� izquierdo de wikipedia
-        
-        Thread.sleep(2000);
-        titulo = driver.getTitle();//Obtenemos el t�tulo de la p�gina web aleatoria que nos abri� wikipedia
-        System.out.println(titulo); //Visualizamos en consola el t�tulo de la p�gina que se abri�
+        assertEquals(nombreFiltroEsperado, nombreActual);
 
-            
-        /* COMBO BOX SIMPLE */
-        Select comboboxSimple = new Select(driver.findElement(By.id("combobox1")));
-        comboboxSimple.selectByIndex(2);//0 es el primer elemento
+    }
 
-        Thread.sleep(2000);
-        
-        //OJO: no se puede deseleccionar en un combo Simple
-        driver.findElement(By.id("enviaComboboxes")).click();//hacemos click sobre el bot�n enviar
-        Thread.sleep(2000);
-        /* COMBO BOX MULTIPLE */
-         Select comboboxMultiple = new Select(driver.findElement(By.id("combobox2")));
-        comboboxMultiple.selectByIndex(0);//0 es el primer elemento del combo
-        comboboxMultiple.selectByValue("pera");//seleccionamos por el texto del atributo value de las opciones
-        comboboxMultiple.selectByVisibleText("Plátano");//seleccionamos por el texto visible de las opciones
+    @Test
+    public void compraSinProducto() throws InterruptedException {
 
-        Thread.sleep(2000);//esperamos 2 segundos para poder visualizar las acciones ejecutadas
+        driver.get("https://www.pccomponentes.com/cart/");
+        driver.manage().window().maximize();
         
-        comboboxMultiple.deselectByIndex(1); //Deseleccionamos la segunda opci�n del combo m�ltiple que previamente habiamos seleccionado
-        //OJO: no se puede deseleccionar en un combo Simple
-        
-        driver.findElement(By.id("enviaComboboxes")).click();;//hacemos click sobre el bot�n enviar
-        
+        WebElement numeroCarritoActual = driver.findElement(By.cssSelector("h1.h3 strong:first-child"));
+        String numeroEsperado = "(0)";
+        String numeroActual = numeroCarritoActual.getText();
 
-        /*RADIO*/
+        assertEquals(numeroEsperado, numeroActual);
 
-        
-        WebElement aguaBoton = driver.findElement(By.cssSelector("[name='bebida'][value='agua']"));
-        aguaBoton.click();
-        Thread.sleep(2000);		
-        
-        //Usamos xpath para localizar el radioButton comida cuyo valor sea dorada
-        WebElement doradaBoton = driver.findElement(By.xpath("//input[@name='comida' and @value='dorada']"));
-        doradaBoton.click();
-        Thread.sleep(2000);						
-        
-        WebElement botonRadioButton = driver.findElement(By.id("enviaRadiobutton"));//hacemos click sobre el bot�n enviar
-        botonRadioButton.click();
-        
+        WebElement textoCestaActual = driver.findElement(By.cssSelector("div p:first-child"));
+        String textoEsperado = "El carrito está vacío";
+        String textoActual = textoCestaActual.getText();
 
-        /*CALENDARIO*/
+        assertEquals(textoEsperado, textoActual);
 
-        
-        WebElement calendario = driver.findElement(By.name("fecha"));
-        calendario.sendKeys("15012021");//Introducimos la fecha 15/01/2021
-        calendario.sendKeys(Keys.TAB);//Introduce la tecla Tabulador para poder cambiar a escribir la hora en el campo
-        calendario.sendKeys("1030");//Escribimos la hora 10:30 en el campo
-        
+        WebElement botonCompra = driver.findElement(By.id("GTM-carrito-realizarPedidoPaso1"));
+        botonCompra.click();
 
+        WebElement usuario = driver.findElement(By.name("username"));
+        WebElement contraseña = driver.findElement(By.name("password"));
+        WebElement botonInicio = driver.findElement(By.cssSelector("[data-cy='log-in']"));
+
+        //cuenta y constraseña para prueba no contiene datos
+        usuario.sendKeys("abc123@hotmail.com");
+        contraseña.sendKeys("abc123");
+        botonInicio.click();
         Thread.sleep(5000);
-        driver.quit();
 
+        WebElement alerta = driver.findElement(By.cssSelector("div.alertBox div#alerta-00 p"));
+        String textoErrorEsperado = "El carrito está vacio";
+        String textoAlertaActual = alerta.getText();
+
+        assertEquals(textoErrorEsperado, textoAlertaActual);
+    }
+
+    @Test
+    public void pruebaMenu() throws InterruptedException {
+
+        driver.get("https://www.pccomponentes.com/");
+        driver.manage().window().maximize();
+
+        WebElement menu = driver.findElement(By.className("c-main-menu__top-bar"));
+        menu.click();
+        Thread.sleep(2000);
+
+        WebElement opcion1 = driver.findElement(By.id("GTM-superfamilia-119"));
+        opcion1.click();
+        Thread.sleep(2000);
+        
+        WebElement tituloOpcionActual = driver.findElement(By.cssSelector("div.col-xs-12 h1"));
+        String tituloEsperado = "Ordenadores PC y Portátiles";
+        String tituloActual = tituloOpcionActual.getText();
+
+        assertEquals(tituloEsperado, tituloActual);
+        Thread.sleep(2000);
+
+        WebElement menu2 = driver.findElement(By.className("c-main-menu__top-bar"));
+        menu2.click();
+        Thread.sleep(2000);
+
+        WebElement opcion2 = driver.findElement(By.id("GTM-superfamilia-28"));
+        opcion2.click();
+        Thread.sleep(2000);
+
+        WebElement tituloOpcionActual2 = driver.findElement(By.cssSelector("div.col-xs-12 h1"));
+        String tituloEsperado2 = "Periféricos";
+        String tituloActual2 = tituloOpcionActual2.getText();
+
+        assertEquals(tituloEsperado2, tituloActual2);
+    }
+    
+
+    @After
+    public void shutdown() {
+        driver.quit();
     }
 }
